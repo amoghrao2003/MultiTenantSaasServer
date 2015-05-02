@@ -185,7 +185,7 @@ public class MultiTenantSaasAppController {
 			returnMessage.setId(user_id);
 			// insert this JSON in corresponding USERs document
 			String result = new ProjectDetailsService()
-					.getProjectDetails(user_id);
+					.getProjectsDetails(user_id);
 			returnMessage.setMessage(result);
 			String s = g.toJson(returnMessage);
 			return result;
@@ -203,6 +203,21 @@ public class MultiTenantSaasAppController {
 		System.out.println("Request Received Pref : " + preference);
 		String jsonResult = _SchemaDao.getPreferenceColumns(preference);
 		return jsonResult;
+	}
+	
+	@RequestMapping(value = "/project", method = RequestMethod.GET)
+	@ResponseBody
+	public String getProjectDetails(
+			@RequestParam(value = "user_id") String user_id,
+			@RequestParam(value = "project_id") String project_id) {
+		try {
+			System.out.println(user_id + " " +project_id);
+			// update this JSON in corresponding USERs document
+			String projectDetails = new ProjectDetailsService().getProjectDetails(user_id, project_id);
+			return projectDetails;
+		} catch (Exception ex) {
+			return "Fail";
+		}
 	}
 
 }

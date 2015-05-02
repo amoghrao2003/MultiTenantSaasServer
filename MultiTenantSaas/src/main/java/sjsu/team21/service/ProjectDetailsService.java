@@ -24,9 +24,13 @@ public class ProjectDetailsService {
 		// TODO Auto-generated method stub
 		return projectDetailsDAO.getTaskDetails(project_id,user_id);
 	}
-	public String getProjectDetails(String user_id) {
+	public String getProjectDetails(String user_id, String project_id) {
 		// TODO Auto-generated method stub
-		return projectDetailsDAO.getProjectDetails(user_id);
+		return projectDetailsDAO.getProjectDetails(user_id,project_id);
+	}
+	public String getProjectsDetails(String user_id) {
+		// TODO Auto-generated method stub
+		return projectDetailsDAO.getProjectsDetails(user_id);
 	}
 	public void createDocument(User userModel) {
 		// TODO Auto-generated method stub

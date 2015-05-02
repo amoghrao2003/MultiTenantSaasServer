@@ -1,5 +1,7 @@
 package sjsu.team21.MongoDBImpl;
 
+import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.projection;
+
 import sjsu.team21.mongoModels.MUser;
 
 import com.google.gson.Gson;
@@ -12,7 +14,6 @@ import com.mongodb.util.JSON;
 public class ProjectDetailsDAO extends MSaasDB{
 
 final private String DATABASE_MONGO_PROJECT_COLLECTION= "DATABASE_MONGO_PROJECT_COLLECTION";
-final private String DATABASE_MONGO_TASK_COLLECTION= "DATABASE_MONGO_TASK_COLLECTION";
 final private String DATABASE_MONGO_USER_COLLECTION= "DATABASE_MONGO_USER_COLLECTION";
 	
 	public void testDBData(){
@@ -44,7 +45,7 @@ final private String DATABASE_MONGO_USER_COLLECTION= "DATABASE_MONGO_USER_COLLEC
 		BasicDBObject searchQuery = new BasicDBObject().append("user_id", user_id).append("projectDetails.project_id", project_id);
 		userCollection.update(searchQuery, newDocument);
 	}
-	public String getProjectDetails(String user_id) {
+	public String getProjectsDetails(String user_id) {
 		DBCollection taskDetailsCollection = saasDB.getCollection(properties.getProperty(DATABASE_MONGO_USER_COLLECTION));
 		DBCursor dbCursor =taskDetailsCollection.find(new BasicDBObject("user_id", user_id));
 		String msg ="";
@@ -63,4 +64,28 @@ final private String DATABASE_MONGO_USER_COLLECTION= "DATABASE_MONGO_USER_COLLEC
 		userCollection.insert(dbObject);
 		
 	}
+	public String getProjectDetails(String user_id, String project_id) {
+		
+		DBCollection userCollection = saasDB.getCollection(properties.getProperty(DATABASE_MONGO_USER_COLLECTION));
+		BasicDBObject whereAll	 = new BasicDBObject(new BasicDBObject("projectDetails",
+				new BasicDBObject("$elemMatch",
+						new BasicDBObject("project_id",project_id))
+							.append("user_id", new BasicDBObject("projectDetails", new BasicDBObject("$elemMatch",
+									new BasicDBObject("project_id",project_id))))));
+		
+		BasicDBObject where	 = new BasicDBObject(new BasicDBObject("projectDetails",
+				new BasicDBObject("$elemMatch",
+						new BasicDBObject("project_id",project_id)))
+							.append("user_id", user_id));
+		
+		
+		BasicDBObject project = 
+									new BasicDBObject("projectDetails",new BasicDBObject(
+											"$elemMatch",new BasicDBObject("project_id",project_id)));
+		
+		DBObject d  = userCollection.findOne(where,project );
+		System.out.println(d.toString());
+		return d.toString();
+	}
+	
 }
