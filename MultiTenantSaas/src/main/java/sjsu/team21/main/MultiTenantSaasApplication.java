@@ -11,6 +11,7 @@ import sjsu.team21.beans.ProjectDetails;
 import sjsu.team21.beans.Tasks;
 import sjsu.team21.beans.Users;
 import sjsu.team21.models.User;
+import sjsu.team21.service.ProjectDetailsService;
 
 @SpringBootApplication
 public class MultiTenantSaasApplication {
@@ -86,6 +87,7 @@ public class MultiTenantSaasApplication {
 		
 		System.out.println(new Gson().toJson(u));*/
 		SpringApplication.run(MultiTenantSaasApplication.class, args);
+		
 	}
 
 }

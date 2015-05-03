@@ -219,5 +219,20 @@ public class MultiTenantSaasAppController {
 			return "Fail";
 		}
 	}
+	
+	@RequestMapping(value = "/project/status", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getProjectStatus(
+			@RequestParam(value = "user_id") String user_id,
+			@RequestParam(value = "project_id") String project_id,
+			@RequestParam(value = "preference_id") String preference_id) {
+		try {
+			System.out.println(user_id + " " +project_id+" "+preference_id);
+			Object projectStatus = new ProjectDetailsService().getProjectStatus(user_id, project_id,preference_id);
+			return projectStatus;
+		} catch (Exception ex) {
+			return "Fail";
+		}
+	}
 
 }

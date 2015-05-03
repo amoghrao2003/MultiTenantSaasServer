@@ -1,6 +1,5 @@
 package sjsu.team21.MongoDBImpl;
 
-import org.neo4j.cypher.internal.compiler.v2_1.planner.logical.steps.projection;
 
 import sjsu.team21.mongoModels.MUser;
 
@@ -65,7 +64,6 @@ final private String DATABASE_MONGO_USER_COLLECTION= "DATABASE_MONGO_USER_COLLEC
 		
 	}
 	public String getProjectDetails(String user_id, String project_id) {
-		
 		DBCollection userCollection = saasDB.getCollection(properties.getProperty(DATABASE_MONGO_USER_COLLECTION));
 		BasicDBObject whereAll	 = new BasicDBObject(new BasicDBObject("projectDetails",
 				new BasicDBObject("$elemMatch",
@@ -82,10 +80,22 @@ final private String DATABASE_MONGO_USER_COLLECTION= "DATABASE_MONGO_USER_COLLEC
 		BasicDBObject project = 
 									new BasicDBObject("projectDetails",new BasicDBObject(
 											"$elemMatch",new BasicDBObject("project_id",project_id)));
-		
 		DBObject d  = userCollection.findOne(where,project );
 		System.out.println(d.toString());
 		return d.toString();
+	}
+	public int getTaskCount(String queryField, String user_id, String project_id) {
+		int result = 0;
+		switch(queryField){
+		case "T":
+			
+			
+			break;
+			default:
+				
+				
+		}
+		return result;
 	}
 	
 }
